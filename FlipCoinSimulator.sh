@@ -1,22 +1,36 @@
 #!/bin/bash -x
 
+valid=true
 heads=0
 tails=0
 numberOfFlips=0
 
-while [ $numberOfFlips -le 10 ]
+while [ $valid ]
 do
 	flip=$((RANDOM%2))
+	echo "$numberOfFlips=$flip"
 if [ $flip -eq 1 ];
 then
-        #echo "!! Heads Win !!"
 	heads=$((heads+1))
-else
-        #echo "!! Tails Win !!"
+elif [ $flip -eq 0 ];
+then
 	tails=$((tails+1))
+elif [ $heads -eq 21 ];
+then
+	 echo "!! Head Wins over Tail by $((numberOfFlips-heads)) !!"
+break
+fi
+if [ $tails -eq 21 ];
+then
+	echo "!! Tail Wins over Head by $((numberOfFlips-tails)) !!"
+break
+fi
+if [[ $heads -eq 21 && $tails -eq 21 ]];
+then
+	echo "oops!! its a Tie"
+break;
 fi
 ((numberOfFlips++))
 done
 
-	echo "Heads Win $heads Times"
-	echo "Tails Win $tails Times"
+
